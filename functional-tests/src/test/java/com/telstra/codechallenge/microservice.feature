@@ -3,28 +3,14 @@
 # for how to write feature scenarios
 Feature: As a developer i want to know if my spring boot application is running
 
-  Scenario: Is the health uri available and status=UP
+  Scenario: Is the GitHub Search API uri to get the old user account details
     Given url microserviceUrl
-    And path '/actuator/health'
+    And path '/old-users-account'
+    Given param limit = '2'
     When method GET
     Then status 200
-    And match response == { "status" : "UP" }
-
-  Scenario: Is the info uri available and returning data
-    Given url microserviceUrl
-    And path '/actuator/info'
-    When method GET
-    Then status 200
-    # see https://github.com/intuit/karate#schema-validation
-    And match response ==
-      """
-        {
-          build: {
-            version: '#string',
-            artifact: '#string',
-            name: '#string',
-            group: '#string',
-            time: '#string'
-          }
-        }
-      """
+    And match header Content-Type contains 'application/json'
+    # Define the required schema
+    * def accountSchema = { id : '#string', login : '#string', html_url : '#string' } }
+    # The response should have an array of 12 quote objects
+    And match response == '#[2] accountSchema'

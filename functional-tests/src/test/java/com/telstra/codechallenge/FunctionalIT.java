@@ -8,14 +8,4 @@ public class FunctionalIT {
     return Karate.run("microservice").relativeTo(getClass());
   }
 
-  @Karate.Test
-  Karate testHelloWorld() {
-    return Karate.run("helloworld").relativeTo(getClass());
-  }
-
-  @Karate.Test
-  Karate testQuotes() {
-    return Karate.run("quotes").relativeTo(getClass());
-  }
-
 }
